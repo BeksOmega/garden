@@ -1,0 +1,19 @@
+{
+  "name": "garden",
+  "version": "0.0.0",
+  "description": "Code playground for generating plants",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BeksOmega/garden.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BeksOmega/garden/issues"
+  },
+  "homepage": "https://github.com/BeksOmega/garden#readme"
+}
