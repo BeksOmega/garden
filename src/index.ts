@@ -5,7 +5,7 @@
  */
 
 
-import p5 from 'p5'
+import * as p5 from 'p5'
 
 const sketch = (p) => {
   p.setup = function() {
@@ -14,7 +14,7 @@ const sketch = (p) => {
 
   p.draw = function() {
     p.background(0);
-    p.fill(255);
+    p.fill(0);
     p.rect(100, 100, 50, 50);
   };
 };
