@@ -6,16 +6,22 @@
 
 
 import * as p5 from 'p5'
+import { run } from './l-system';
+import { interpret } from './turtle';
 
 const sketch = (p) => {
+  let sys = '';
+
   p.setup = function() {
+    sys = run(0, 6);
+    console.log(sys);
     p.createCanvas(700, 410);
   }
 
   p.draw = function() {
     p.background(0);
-    p.fill(0);
-    p.rect(100, 100, 50, 50);
+    p.stroke(255);
+    interpret(sys, p);
   };
 };
 
