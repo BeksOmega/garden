@@ -5,15 +5,46 @@
  */
 
 
-const sys = ['A'];
-const rules = new Map();
-rules.set('A', [...'-BF+AFA+FB-']);
-rules.set('B', [...'+AF-BFB-FA+']);
 
-export function run(seed: number, iterations: number): string {
-  let newSys = [...sys];
-  for (let i = 0; i < iterations; i++) {
-    newSys = newSys.flatMap((char) => rules.get(char) || char);
+export interface Segment {
+  identifier: string;
+}
+
+type Production = (Segment) => Segment[];
+
+export class LSystem {
+  private sys: Segment[] = [];
+
+  private productions: Map<string, Production> = new Map();
+
+  constructor() {
+    this.sys = [new ApicalMeristem()];
   }
-  return newSys.reduce((acc, cur) => acc + cur);
+
+  iterate(): Segment[] {
+    return this.sys = this.sys.flatMap(
+      seg => this.productions.get(seg.identifier) ?
+          this.productions.get(seg.identifier)(seg) :
+          [seg])
+  }
+
+}
+
+export class ApicalMeristem implements Segment {
+  static identifier = 'ApicalMeristem';
+  identifier = 'ApicalMeristem';
+
+  age = 0;
+}
+
+export class Stem implements Segment {
+  identifier = 'Stem';
+
+  age = 0;
+}
+
+export class Leaf implements Segment {
+  identifier = 'Leaf';
+
+  age = 0;
 }

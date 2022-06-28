@@ -4,36 +4,46 @@
  * SPDX-License-Identifier: MIT
  */
 
-import * as p5 from "p5";
+import * as p5 from 'p5';
+import {Segment, ApicalMeristem} from './l-system';
 
-let x = 10;
-let y = 410;
-let heading = 0;
 
-const rules = new Map();
-const step = 20;
-const angle = 90;
+type Drawer = (Segment) => void;
 
-export function interpret(commands: string, p: p5) {
-  x = 10;
-  y = 410;
-  heading = 0;
+export class Turtle {
+  x = 0;
 
-  for (const char of commands) {
-    if (rules.get(char)) {
-      rules.get(char)(p);
-    }
+  y = 0;
+
+  d = 0;
+
+  step = 20;
+
+  productions: Map<string, Drawer> = new Map();
+
+  constructor(private readonly p: p5) {
+    this.productions.set(ApicalMeristem.identifier, (s: Segment) => {
+      const x1 = this.x + this.step * this.p.cos(this.p.radians(this.d));
+      const y1 = this.y + this.step * this.p.sin(this.p.radians(this.d));
+      this.p.line(this.x, this.y, x1, y1);
+      this.x = x1;
+      this.y = y1;
+    });
+  }
+
+  draw(segs: Segment[]) {
+    this.reset();
+
+    segs.forEach(seg => {
+      if (this.productions.get(seg.identifier)) {
+        this.productions.get(seg.identifier)(seg);
+      }
+    })
+  }
+
+  reset() {
+    this.y = this.p.height - 1;
+    this.x = this.p.width / 2;
+    this.d = 270;
   }
 }
-
-rules.set('F', (p: p5) => {
-  const x1 = x + step * p.cos(p.radians(heading));
-  const y1 = y + step * p.sin(p.radians(heading));
-  p.line(x, y, x1, y1);
-  x = x1;
-  y = y1;
-})
-
-rules.set('+', () => { heading += angle; })
-
-rules.set('-', () => { heading -= angle; })
