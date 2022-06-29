@@ -19,6 +19,28 @@ export class LSystem {
 
   constructor() {
     this.sys = [new ApicalMeristem()];
+
+    this.productions.set(ApicalMeristem.identifier, (s: Segment) => {
+      const a = s as ApicalMeristem;
+      if (a.age > 0 && a.age % 20 == 0) {
+        const stem = new Stem(a.prevBirth, a.age + 1);
+        const leaf = new Leaf(a.age / 20);
+
+        a.prevBirth = a.age;
+        a.age++;
+
+        return [stem, leaf, a];
+      } else {
+        a.age++;
+        return [a];
+      }
+    });
+
+    this.productions.set(Leaf.identifier, (s: Segment) => {
+      const l = s as Leaf;
+      l.age++;
+      return [l];
+    })
   }
 
   iterate(): Segment[] {
@@ -35,16 +57,21 @@ export class ApicalMeristem implements Segment {
   identifier = 'ApicalMeristem';
 
   age = 0;
+  prevBirth = 0;
 }
 
 export class Stem implements Segment {
+  static identifier = 'Stem';
   identifier = 'Stem';
 
-  age = 0;
+  constructor(public readonly birth: number, public readonly death: number) {}
 }
 
 export class Leaf implements Segment {
+  static identifier = 'Leaf';
   identifier = 'Leaf';
 
   age = 0;
+
+  constructor(public readonly number: number) {}
 }

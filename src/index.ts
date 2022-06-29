@@ -22,8 +22,10 @@ const sketch = (p) => {
 
   p.draw = function() {
     p.background(0);
-    p.stroke(255, 0, 0);
-    turtle.draw(lSystem.iterate());
+    p.stroke(0, 255, 0);
+    p.strokeWeight(4);
+    const sys = lSystem.iterate();
+    turtle.draw(sys);
   };
 };
 
