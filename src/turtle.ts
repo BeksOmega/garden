@@ -6,6 +6,7 @@
 
 import * as p5 from 'p5';
 import {Segment, Stem, Leaf, ApicalMeristem} from './l-system';
+import {createSig, sig} from './sigmoid';
 
 
 type Drawer = (Segment) => void;
@@ -29,8 +30,8 @@ export class Turtle {
 
   positionStack: Position[] = [];
 
-  constructor(private readonly p: p5) {
-    const stemHeight = createSig(380, .02, 170);
+  constructor(private readonly p: p5, private readonly maxHeight: number) {
+    const stemHeight = createSig({maxY: maxHeight, steepness: .02, midX: 170});
 
     this.productions.set(ApicalMeristem.identifier, (s: Segment) => {
       const a = s as ApicalMeristem;
@@ -60,7 +61,7 @@ export class Turtle {
       } else {
         this.d -= 45;
       }
-      const length = sig(20, .4, 10, l.age);
+      const length = sig(l.age, {maxY: 20, steepness: .4, midX: 10});
       const x1 = this.x + length * this.p.cos(this.p.radians(this.d));
       const y1 = this.y + length * this.p.sin(this.p.radians(this.d));
       this.p.line(this.x, this.y, x1, y1);
@@ -70,8 +71,10 @@ export class Turtle {
     })
   }
 
-  draw(segs: Segment[]) {
-    this.reset();
+  draw(segs: Segment[], start: Position) {
+    this.y = start.y;
+    this.x = start.x;
+    this.d = start.d;
 
     segs.forEach(seg => {
       if (this.productions.get(seg.identifier)) {
@@ -96,12 +99,4 @@ export class Turtle {
     this.y = pos.y;
     this.d = pos.d;
   }
-}
-
-function createSig(maxY: number, steepness: number, midX: number) {
-  return (x: number) => maxY / (1 + Math.exp(-1 * steepness * (x - midX)));
-}
-
-function sig(maxY: number, steepness: number, midX: number, x: number) {
-  return createSig(maxY, steepness, midX)(x);
 }

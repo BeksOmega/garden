@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
+import {createSig} from './sigmoid';
 
 
 export interface Segment {
@@ -17,23 +18,34 @@ export class LSystem {
 
   private productions: Map<string, Production> = new Map();
 
-  constructor() {
+  private leafProb = createSig({maxY: 1, steepness: 5, midX: 1});
+
+  private leafCount = 0;
+
+  constructor(private readonly maxAge: number) {
+
+
     this.sys = [new ApicalMeristem()];
 
     this.productions.set(ApicalMeristem.identifier, (s: Segment) => {
       const a = s as ApicalMeristem;
-      if (a.age > 0 && a.age % 20 == 0) {
+
+      if (a.age > maxAge) {
+        return [];
+      }
+
+      if (Math.random() < this.leafProb((a.age - a.prevBirth) / 20)) {
         const stem = new Stem(a.prevBirth, a.age + 1);
-        const leaf = new Leaf(a.age / 20);
+        const leaf = new Leaf(++this.leafCount);
 
         a.prevBirth = a.age;
         a.age++;
 
         return [stem, leaf, a];
-      } else {
-        a.age++;
-        return [a];
       }
+
+      a.age++;
+      return [a];
     });
 
     this.productions.set(Leaf.identifier, (s: Segment) => {
