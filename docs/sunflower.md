@@ -47,3 +47,8 @@ it only needs to draw the difference between the two heights at that point in
 time.
 
 That sounds like a good initial plan.
+
+## Flower
+
+Let's start with a pretty simle flower - i.e. just circles instead of actual
+petals. We want a green circle, then a yellow circle, and then a black circle.

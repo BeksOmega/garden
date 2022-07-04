@@ -6,20 +6,25 @@
 
 import * as p5 from 'p5';
 
-interface Position {
+interface State {
   x: number;
   y: number;
   d: number;
+  r: number;
+  g: number;
+  b: number;
 }
 
 export class Turtle {
   x = 0;
-
   y = 0;
-
   d = 0;
 
-  positionStack: Position[] = [];
+  r = 0;
+  g = 0;
+  b = 0;
+
+  stateStack: State[] = [];
 
   constructor(private readonly p: p5) {}
 
@@ -39,20 +44,39 @@ export class Turtle {
     this.d += angle;
   }
 
-  setPosition(x = 0, y = 0, d = 0) {
-    this.x = x;
-    this.y = y;
-    this.d = d;
+  setPosition(x = null, y = null, d = null) {
+    if (x !== null) this.x = x;
+    if (y !== null) this.y = y;
+    if (d !== null) this.d = d;
   }
 
-  pushPosition() {
-    this.positionStack.push({x: this.x, y: this.y, d: this.d});
+  pushState() {
+    this.stateStack.push({
+      x: this.x,
+      y: this.y,
+      d: this.d,
+      r: this.r,
+      g: this.g,
+      b: this.b
+    });
   }
 
-  popPosition() {
-    const pos = this.positionStack.pop();
-    this.x = pos.x;
-    this.y = pos.y;
-    this.d = pos.d;
+  popState() {
+    const state = this.stateStack.pop();
+    this.x = state.x;
+    this.y = state.y;
+    this.d = state.d;
+    this.r = state.r;
+    this.g = state.g;
+    this.b = state.b;
+  }
+
+  setColour(r, g, b) {
+    this.p.fill(r, g, b);
+    this.p.stroke(r, g, b);
+  }
+
+  circle(r: number) {
+    this.p.circle(this.x, this.y, r * 2);
   }
 }
