@@ -55,7 +55,7 @@ class ApicalMeristem implements Segment {
   }
 
   replace(): Segment[] {
-    //if (this.age > this.maxAge) return [new Sepal()];
+    if (this.age > this.maxAge) return [new Sepal()];
     if (this.age > this.maxAge) return [];
     if (Math.random() < this.leafProbability()) return this.createLeaves();
     this.age++;
@@ -63,11 +63,13 @@ class ApicalMeristem implements Segment {
   }
 
   draw(t: Turtle) {
+    //t.right((Math.random() - 1) * 20);
+    t.right(Math.sin(this.age / 3) * 10);
     t.forward(this.length());
   }
 
   private createLeaves(): Segment[] {
-    const stem = new Stem(this.length());
+    const stem = new Stem(this.length(), Math.sin(this.age / 3) * 10);
     this.prevBirth = this.age;
     this.age++;
 
@@ -81,7 +83,7 @@ class ApicalMeristem implements Segment {
 
   private leafProbability(): number {
     return sig(
-        (this.age - this.prevBirth) / 20,
+        (this.age - this.prevBirth) / 25,
         {minY: -.1, maxY: 1, steepness: 4, midX: 1.2});
   }
 
@@ -94,14 +96,16 @@ class Stem implements Segment {
   static identifier = 'Stem';
   identifier = 'Stem';
 
-  constructor(private readonly length: number) {}
+  constructor(private readonly length: number, private readonly angle: number) {}
 
   replace(): Segment[] {
     return [this];
   }
 
   draw(t: Turtle) {
+    t.right(this.angle);
     t.forward(this.length);
+    t.left(this.angle)
   }
 }
 
