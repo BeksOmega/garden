@@ -6,9 +6,7 @@
 
 
 import * as p5 from 'p5'
-import { Sunflower } from './sunflower';
-import { createSig } from './sigmoid';
-import { Turtle } from './turtle';
+import {Sunflower} from './sunflower';
 
 const sketch = (p) => {
   const width = 700;

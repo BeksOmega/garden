@@ -6,6 +6,7 @@
 
 import * as p5 from 'p5';
 import {createSig, sig} from './sigmoid';
+import {bell} from './bell';
 import {Turtle} from './turtle';
 
 
@@ -49,11 +50,13 @@ class ApicalMeristem implements Segment {
   private readonly stemHeight;
 
   constructor(private readonly maxAge: number) {
-    this.stemHeight = createSig({maxY: maxAge, steepness: .02, midX: 170}); 
+    this.stemHeight = createSig(
+        {maxY: maxAge, steepness: .015, midX: maxAge / 3 * 2}); 
   }
 
   replace(): Segment[] {
-    if (this.age > this.maxAge) return [new Sepal()];
+    //if (this.age > this.maxAge) return [new Sepal()];
+    if (this.age > this.maxAge) return [];
     if (Math.random() < this.leafProbability()) return this.createLeaves();
     this.age++;
     return [this];
@@ -110,8 +113,9 @@ class Leaf implements Segment {
   private readonly maxLen;
 
   constructor(public readonly number: number) {
-    this.maxLen =
-        sig(Math.random(), {minY: 15, maxY: 15, steepness: 6.5, midX: .5});
+    this.maxLen = bell(30, 9, 10, number/2) + (Math.random() - 1) * 8;
+    // this.maxLen =
+    //     sig(Math.random(), {minY: 15, maxY: 15, steepness: 6.5, midX: .5});
   }
 
   replace(): Segment[] {
