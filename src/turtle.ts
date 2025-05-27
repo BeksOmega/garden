@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import * as p5 from 'p5';
+import * as p5 from "p5";
 
 interface State {
   x: number;
@@ -36,10 +36,12 @@ export class Turtle {
     this.y = y1;
   }
 
+  /** Turn left by the given angle in degrees. */
   left(angle: number) {
     this.d -= angle;
   }
 
+  /** Turn right by the given angle in degrees. */
   right(angle: number) {
     this.d += angle;
   }
@@ -57,7 +59,7 @@ export class Turtle {
       d: this.d,
       r: this.r,
       g: this.g,
-      b: this.b
+      b: this.b,
     });
   }
 

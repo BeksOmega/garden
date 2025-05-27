@@ -7,7 +7,16 @@
 import { Segment } from "./segment";
 
 export class Segment202505271035 extends Segment {
-  constructor(public length: number) {
+  children: Segment202505271035[] = [];
+
+  /**
+   * @param length The length of the segment in pixels.
+   * @param angle The angle to turn left by before drawing the segment in degrees.
+   */
+  constructor(
+    public length: number,
+    public angle: number
+  ) {
     super();
   }
 }
