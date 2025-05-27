@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2025 Beka Westberg
+ * SPDX-License-Identifier: MIT
+ */
+
 import Rand, { PRNG } from 'rand-seed';
 
 export class Random {
