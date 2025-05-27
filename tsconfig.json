@@ -4,5 +4,6 @@
     "module": "es6",
     "target": "es2022",
     "sourceMap": true,
+    "moduleResolution": "node"
   }
 }

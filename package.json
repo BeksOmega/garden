@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/BeksOmega/garden#readme",
   "dependencies": {
-    "p5": "^1.4.1"
+    "p5": "^1.4.1",
+    "rand-seed": "^2.1.7"
   },
   "devDependencies": {
     "@types/p5": "^1.4.2",
