@@ -4,20 +4,19 @@
  * SPDX-License-Identifier: MIT
  */
 
-
-import * as p5 from 'p5'
-import { Random } from './utils/randomness'
+import * as p5 from "p5";
+import { Random } from "./utils/randomness";
 
 const sketch = (p: p5) => {
   const width = 700;
   const height = 410;
 
-  p.setup = function() {
+  p.setup = function () {
     p.createCanvas(width, height);
-  }
+  };
 
-  p.draw = function() {
-    const seed = (document.getElementById('seed') as HTMLInputElement).value;
+  p.draw = function () {
+    const seed = (document.getElementById("seed") as HTMLInputElement).value;
     const rand = new Random(seed);
 
     p.background(0);
@@ -31,8 +30,10 @@ const sketch = (p: p5) => {
   };
 };
 
-new p5(sketch, document.getElementById('p5-canvas'));
+new p5(sketch, document.getElementById("p5-canvas"));
 
-document.getElementById('btn1')?.addEventListener('click', () => {
-  (document.getElementById('seed') as HTMLInputElement).value = Math.floor(Math.random() * 1000000000).toString();
+document.getElementById("btn1")?.addEventListener("click", () => {
+  (document.getElementById("seed") as HTMLInputElement).value = Math.floor(
+    Math.random() * 1000000000
+  ).toString();
 });
