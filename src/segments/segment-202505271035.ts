@@ -19,4 +19,9 @@ export class Segment202505271035 extends Segment {
   ) {
     super();
   }
+
+  duplicate(): this {
+    const result = new Segment202505271035(this.length, this.angle);
+    return result as this;
+  }
 }

@@ -5,6 +5,14 @@
  */
 
 export class Segment {
+  /**
+   * Returns a new instance of the same class, with the same state,
+   * excluding children.
+   */
+  duplicate(): this {
+    return this.constructor();
+  }
+
   save(): Record<string, any> {
     return Object.create(null);
   }

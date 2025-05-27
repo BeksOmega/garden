@@ -15,7 +15,7 @@ export interface Segment202505271048 extends Segment {
   angle: number;
 
   /** The children of the segment. */
-  children: Segment202505271048[];
+  children: this[];
 }
 
 export interface Segment202505271048Constructor<S extends Segment202505271048> {
@@ -32,7 +32,12 @@ export class Producer202505271048<
   }
 
   produce(segment: S): S {
-    segment.children.push(new this.segmentConstructor(10, 20));
-    return segment;
+    const newSegment = segment.duplicate();
+    newSegment.children.push(new this.segmentConstructor(20, 20));
+    newSegment.children.push(new this.segmentConstructor(20, -20));
+    for (const child of segment.children) {
+      newSegment.children.push(this.produce(child));
+    }
+    return newSegment;
   }
 }
