@@ -8,136 +8,210 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="seed-controls-grid">
+    <div>
+      <label>Row Mutation Seeds</label>
+      <input type="text" id="mutation-seed-row-0" value="1000">
+      <input type="text" id="mutation-seed-row-1" value="1001">
+      <input type="text" id="mutation-seed-row-2" value="1002">
+      <input type="text" id="mutation-seed-row-3" value="1003">
+      <input type="text" id="mutation-seed-row-4" value="1004">
+    </div>
+    <div>
+      <label>Column Production Seeds</label>
+      <input type="text" id="production-seed-col-0" value="2000">
+      <input type="text" id="production-seed-col-1" value="2001">
+      <input type="text" id="production-seed-col-2" value="2002">
+      <input type="text" id="production-seed-col-3" value="2003">
+      <input type="text" id="production-seed-col-4" value="2004">
+    </div>
+    <button id="generate-all-sketches">Generate All Sketches</button>
+  </div>
   <div id="sketches-container">
-    <div class="sketch-container">
-      <div id="p5-canvas-0"></div>
-      <div class="controls">
-        <input type="number" id="seed-0" value="1234567891">
-        <button id="btn1-0">New</button>
-        <button id="btn2-0">Load</button>
-        <button id="btn3-0">Load struct</button>
+    <div class="sketch-row">
+      <div class="sketch-container">
+        <div id="p5-canvas-0-0"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-0-0" rows="5" cols="30"></textarea>
+        </details>
       </div>
-      <details>
-        <summary>Producer Definition</summary>
-        <textarea id="procedure-def-0" rows="10" cols="50"></textarea>
-      </details>
+      <div class="sketch-container">
+        <div id="p5-canvas-0-1"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-0-1" rows="5" cols="30"></textarea>
+        </details>
+      </div>
+      <div class="sketch-container">
+        <div id="p5-canvas-0-2"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-0-2" rows="5" cols="30"></textarea>
+        </details>
+      </div>
+      <div class="sketch-container">
+        <div id="p5-canvas-0-3"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-0-3" rows="5" cols="30"></textarea>
+        </details>
+      </div>
+      <div class="sketch-container">
+        <div id="p5-canvas-0-4"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-0-4" rows="5" cols="30"></textarea>
+        </details>
+      </div>
     </div>
-    <div class="sketch-container">
-      <div id="p5-canvas-1"></div>
-      <div class="controls">
-        <input type="number" id="seed-1" value="1234567892">
-        <button id="btn1-1">New</button>
-        <button id="btn2-1">Load</button>
-        <button id="btn3-1">Load struct</button>
+    <div class="sketch-row">
+      <div class="sketch-container">
+        <div id="p5-canvas-1-0"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-1-0" rows="5" cols="30"></textarea>
+        </details>
       </div>
-      <details>
-        <summary>Producer Definition</summary>
-        <textarea id="procedure-def-1" rows="10" cols="50"></textarea>
-      </details>
+      <div class="sketch-container">
+        <div id="p5-canvas-1-1"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-1-1" rows="5" cols="30"></textarea>
+        </details>
+      </div>
+      <div class="sketch-container">
+        <div id="p5-canvas-1-2"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-1-2" rows="5" cols="30"></textarea>
+        </details>
+      </div>
+      <div class="sketch-container">
+        <div id="p5-canvas-1-3"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-1-3" rows="5" cols="30"></textarea>
+        </details>
+      </div>
+      <div class="sketch-container">
+        <div id="p5-canvas-1-4"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-1-4" rows="5" cols="30"></textarea>
+        </details>
+      </div>
     </div>
-    <div class="sketch-container">
-      <div id="p5-canvas-2"></div>
-      <div class="controls">
-        <input type="number" id="seed-2" value="1234567893">
-        <button id="btn1-2">New</button>
-        <button id="btn2-2">Load</button>
-        <button id="btn3-2">Load struct</button>
+    <div class="sketch-row">
+      <div class="sketch-container">
+        <div id="p5-canvas-2-0"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-2-0" rows="5" cols="30"></textarea>
+        </details>
       </div>
-      <details>
-        <summary>Producer Definition</summary>
-        <textarea id="procedure-def-2" rows="10" cols="50"></textarea>
-      </details>
+      <div class="sketch-container">
+        <div id="p5-canvas-2-1"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-2-1" rows="5" cols="30"></textarea>
+        </details>
+      </div>
+      <div class="sketch-container">
+        <div id="p5-canvas-2-2"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-2-2" rows="5" cols="30"></textarea>
+        </details>
+      </div>
+      <div class="sketch-container">
+        <div id="p5-canvas-2-3"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-2-3" rows="5" cols="30"></textarea>
+        </details>
+      </div>
+      <div class="sketch-container">
+        <div id="p5-canvas-2-4"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-2-4" rows="5" cols="30"></textarea>
+        </details>
+      </div>
     </div>
-    <div class="sketch-container">
-      <div id="p5-canvas-3"></div>
-      <div class="controls">
-        <input type="number" id="seed-3" value="1234567894">
-        <button id="btn1-3">New</button>
-        <button id="btn2-3">Load</button>
-        <button id="btn3-3">Load struct</button>
+    <div class="sketch-row">
+      <div class="sketch-container">
+        <div id="p5-canvas-3-0"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-3-0" rows="5" cols="30"></textarea>
+        </details>
       </div>
-      <details>
-        <summary>Producer Definition</summary>
-        <textarea id="procedure-def-3" rows="10" cols="50"></textarea>
-      </details>
+      <div class="sketch-container">
+        <div id="p5-canvas-3-1"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-3-1" rows="5" cols="30"></textarea>
+        </details>
+      </div>
+      <div class="sketch-container">
+        <div id="p5-canvas-3-2"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-3-2" rows="5" cols="30"></textarea>
+        </details>
+      </div>
+      <div class="sketch-container">
+        <div id="p5-canvas-3-3"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-3-3" rows="5" cols="30"></textarea>
+        </details>
+      </div>
+      <div class="sketch-container">
+        <div id="p5-canvas-3-4"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-3-4" rows="5" cols="30"></textarea>
+        </details>
+      </div>
     </div>
-    <div class="sketch-container">
-      <div id="p5-canvas-4"></div>
-      <div class="controls">
-        <input type="number" id="seed-4" value="1234567895">
-        <button id="btn1-4">New</button>
-        <button id="btn2-4">Load</button>
-        <button id="btn3-4">Load struct</button>
+    <div class="sketch-row">
+      <div class="sketch-container">
+        <div id="p5-canvas-4-0"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-4-0" rows="5" cols="30"></textarea>
+        </details>
       </div>
-      <details>
-        <summary>Producer Definition</summary>
-        <textarea id="procedure-def-4" rows="10" cols="50"></textarea>
-      </details>
-    </div>
-    <div class="sketch-container">
-      <div id="p5-canvas-5"></div>
-      <div class="controls">
-        <input type="number" id="seed-5" value="1234567896">
-        <button id="btn1-5">New</button>
-        <button id="btn2-5">Load</button>
-        <button id="btn3-5">Load struct</button>
+      <div class="sketch-container">
+        <div id="p5-canvas-4-1"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-4-1" rows="5" cols="30"></textarea>
+        </details>
       </div>
-      <details>
-        <summary>Producer Definition</summary>
-        <textarea id="procedure-def-5" rows="10" cols="50"></textarea>
-      </details>
-    </div>
-    <div class="sketch-container">
-      <div id="p5-canvas-6"></div>
-      <div class="controls">
-        <input type="number" id="seed-6" value="1234567897">
-        <button id="btn1-6">New</button>
-        <button id="btn2-6">Load</button>
-        <button id="btn3-6">Load struct</button>
+      <div class="sketch-container">
+        <div id="p5-canvas-4-2"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-4-2" rows="5" cols="30"></textarea>
+        </details>
       </div>
-      <details>
-        <summary>Producer Definition</summary>
-        <textarea id="procedure-def-6" rows="10" cols="50"></textarea>
-      </details>
-    </div>
-    <div class="sketch-container">
-      <div id="p5-canvas-7"></div>
-      <div class="controls">
-        <input type="number" id="seed-7" value="1234567898">
-        <button id="btn1-7">New</button>
-        <button id="btn2-7">Load</button>
-        <button id="btn3-7">Load struct</button>
+      <div class="sketch-container">
+        <div id="p5-canvas-4-3"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-4-3" rows="5" cols="30"></textarea>
+        </details>
       </div>
-      <details>
-        <summary>Producer Definition</summary>
-        <textarea id="procedure-def-7" rows="10" cols="50"></textarea>
-      </details>
-    </div>
-    <div class="sketch-container">
-      <div id="p5-canvas-8"></div>
-      <div class="controls">
-        <input type="number" id="seed-8" value="1234567899">
-        <button id="btn1-8">New</button>
-        <button id="btn2-8">Load</button>
-        <button id="btn3-8">Load struct</button>
+      <div class="sketch-container">
+        <div id="p5-canvas-4-4"></div>
+        <details>
+          <summary>Producer Definition</summary>
+          <textarea id="procedure-def-4-4" rows="5" cols="30"></textarea>
+        </details>
       </div>
-      <details>
-        <summary>Producer Definition</summary>
-        <textarea id="procedure-def-8" rows="10" cols="50"></textarea>
-      </details>
-    </div>
-    <div class="sketch-container">
-      <div id="p5-canvas-9"></div>
-      <div class="controls">
-        <input type="number" id="seed-9" value="1234567900">
-        <button id="btn1-9">New</button>
-        <button id="btn2-9">Load</button>
-        <button id="btn3-9">Load struct</button>
-      </div>
-      <details>
-        <summary>Producer Definition</summary>
-        <textarea id="procedure-def-9" rows="10" cols="50"></textarea>
-      </details>
     </div>
   </div>
 </body>
