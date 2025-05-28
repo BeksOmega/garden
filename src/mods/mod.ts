@@ -6,9 +6,14 @@
 
 import { Random } from "../utils/randomness";
 
-export interface Func {
-  eval(x: number): number;
+export interface Mod {
+  /** Returns the current value of the mod. */
+  val(): number;
 
+  /** Sets the value of the mod. */
+  setVal(val: number): void;
+
+  /** Mutates the value of the mod. */
   mutate(random: Random): void;
 
   save(): Record<string, any> | undefined;

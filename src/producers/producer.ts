@@ -28,7 +28,7 @@ export class Producer<S extends Segment> {
   }
 
   saveString(): string {
-    return JSON.stringify(this.save());
+    return JSON.stringify(this.save(), undefined, 2);
   }
 
   loadString(data: string) {
