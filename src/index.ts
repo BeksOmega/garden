@@ -5,13 +5,13 @@
  */
 
 import * as p5 from "p5";
-import { Segment202505271310 as Segment } from "./segments/segment-202505271310";
-import { Producer202505271720 as Producer } from "./producers/producer-202505271720";
-import { Interpreter202505271211 as Interpreter } from "./interpreters/interpreter-202505271211";
+import { Segment202505280000 as Segment } from "./segments/segment-202505280000";
+import { Producer202505280000 as Producer } from "./producers/producer-202505280000";
+import { Interpreter202505280000 as Interpreter } from "./interpreters/interpreter-202505280000";
 import { Turtle } from "./turtle/turtle";
 import { Random } from "./utils/randomness";
 
-let system = new Segment(20, 0, 0, 0);
+let system = new Segment(20, 0, 0, 0, 0); // Added offset 0
 let producer = new Producer(Segment);
 
 const sketch2 = (p: p5) => {
@@ -55,13 +55,13 @@ document.getElementById("btn3")?.addEventListener("click", () => {
   const struct = JSON.parse(
     (document.getElementById("procedure-def") as HTMLTextAreaElement).value
   );
-  system = new Segment(0, 0, 0, 0);
+  system = new Segment(0, 0, 0, 0, 0); // Added offset 0
   producer = new Producer(Segment);
   producer.load(struct);
 });
 
 function loadSeed(seed: string) {
-  system = new Segment(0, 0, 0, 0);
+  system = new Segment(0, 0, 0, 0, 0); // Added offset 0
   producer = new Producer(Segment);
   producer.mutate(new Random(seed));
   (document.getElementById("procedure-def") as HTMLTextAreaElement).value =
