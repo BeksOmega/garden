@@ -1,0 +1,76 @@
+body {
+      font-family: sans-serif;
+    }
+    #sketches-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px; /* Space between sketch containers */
+      padding: 16px; /* Padding around the whole container */
+      justify-content: center; /* Center sketches if they don't fill the row */
+    }
+    .sketch-container {
+      border: 1px solid #ccc;
+      padding: 12px; /* Slightly increased padding */
+      /* margin: 0; Removed margin as gap handles spacing */
+      width: calc(50% - 8px); /* 2 sketches per row, accounting for 16px gap. (16px / 2 = 8px) */
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column; /* Stack canvas, controls, details vertically */
+    }
+    /* Media query for smaller screens, e.g., 1 sketch per row */
+    @media (max-width: 800px) { /* Adjust breakpoint as needed */
+      .sketch-container {
+        width: calc(100% - 0px); /* Full width minus adjustments if any; gap handles spacing */
+      }
+    }
+    /* Media query for very small screens, ensure single column and full width */
+    @media (max-width: 480px) {
+      #sketches-container {
+        padding: 8px; /* Reduce padding on very small screens */
+        gap: 8px;
+      }
+      .sketch-container {
+        width: 100%; /* Ensure it takes full width */
+        padding: 8px;
+      }
+    }
+    .sketch-container > div[id^="p5-canvas-"] {
+      /* Ensures canvas container does not shrink and maintains aspect ratio if p5 canvas is responsive */
+      /* min-height: 200px; Set by JS, but good to keep in mind */
+      margin-bottom: 10px;
+      display: flex; /* Allow canvas to center if p5 makes it smaller than div */
+      justify-content: center;
+      align-items: center;
+      border: 1px solid #eee; /* Light border around canvas area */
+    }
+    .controls {
+      margin-top: 8px;
+      margin-bottom: 8px;
+      display: flex;
+      flex-wrap: wrap; /* Allow controls to wrap on small sketch containers */
+      gap: 8px; /* Space between control items */
+    }
+    .controls input[type="number"] {
+      flex-grow: 1; /* Seed input takes available space */
+      min-width: 100px; /* Prevent seed input from becoming too small */
+    }
+    .controls button {
+      flex-grow: 1; /* Allow buttons to grow and fill space if needed, or group nicely */
+    }
+    details {
+      margin-top: auto; /* Push details to the bottom if sketch containers have varying heights */
+    }
+    details > summary {
+      cursor: pointer;
+      font-weight: bold;
+      padding: 5px 0;
+      border-top: 1px solid #eee; /* Separator line */
+      margin-top: 10px;
+    }
+    textarea {
+      width: 100%; 
+      box-sizing: border-box;
+      margin-top: 5px;
+      min-height: 100px; /* Increased min-height */
+      font-family: monospace;
+    }
