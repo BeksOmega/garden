@@ -6,7 +6,7 @@
 
 import * as p5 from "p5";
 import { Segment202505271310 as Segment } from "./segments/segment-202505271310";
-import { Producer202505271309 as Producer } from "./producers/producer-202505271309";
+import { Producer202505271720 as Producer } from "./producers/producer-202505271720";
 import { Interpreter202505271211 as Interpreter } from "./interpreters/interpreter-202505271211";
 import { Turtle } from "./turtle/turtle";
 
@@ -32,7 +32,7 @@ const sketch2 = (p: p5) => {
     interpreter.interpret(system);
   };
 
-  p.frameRate(2);
+  p.frameRate(30);
 };
 
 new p5(sketch2, document.getElementById("p5-canvas"));
