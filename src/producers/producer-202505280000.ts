@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { Segment as BaseSegment } from "../segments/segment";
-import { Segment202505280000 as ActualSegmentClass } from '../segments/segment-202505280000';
+import { Segment } from "../segments/segment";
 import { Producer } from "./producer";
 import { Linear } from "../functions/linear";
 import { Power } from "../functions/power";
@@ -14,40 +13,44 @@ import { Constant as C } from "../mods/constant";
 import { Clamped as Cl } from "../mods/clamped";
 import { Random } from "../utils/randomness";
 
-// This interface is for type consistency with how other producers are written,
-// even if ActualSegmentClass could be used directly in some places.
-export interface Segment202505280000 extends BaseSegment {
+export interface Segment202505280000 extends Segment {
   length: number;
   angle: number;
   stage: number;
   age: number;
-  offset: number; // Added offset
+  offset: number;
   children: this[];
 }
 
 export interface Segment202505280000Constructor<S extends Segment202505280000> {
-  new (length: number, angle: number, stage: number, age: number, offset: number): S; // Added offset
+  new (
+    length: number,
+    angle: number,
+    stage: number,
+    age: number,
+    offset: number
+  ): S;
 }
 
 export class Producer202505280000<
   S extends Segment202505280000,
 > extends Producer<S> {
-  // All these functions remain the same as Producer202505271720
   private readonly modifyAge = new Clamp(
     new C(0),
     new C(1),
-    new Linear(new Cl(1, 1, 2), new Cl(0.2, 0.01, 0.5))
+    new Linear(new Cl(1, 1, 2), new Cl(0.25, 0.01, 0.5))
   );
   private readonly modifyLength = new Linear(
-    new Cl(60, 0, 100),
+    new Cl(80, 0, 100),
     new C(0),
     new Clamp(new C(0), new C(1))
   );
   private readonly newChildCount = new Power(
-    new Cl(-3.5, -10, -1),
-    new Cl(0.4, 0, 1),
+    new Cl(-4.6, -10, -1),
+    new Cl(0.75, 0, 1),
     new Cl(0.3, 0, 2),
-    new Cl(3, 0, 10)
+    new Cl(3, 0, 10),
+    new Clamp(new C(0), new C(1))
   );
   private readonly newChildStage = new Linear(
     new Cl(1, 1, 2),
@@ -59,33 +62,36 @@ export class Producer202505280000<
   );
 
   constructor(
-    // Use ActualSegmentClass for the constructor parameter type for clarity
-    public readonly segmentConstructor: Segment202505280000Constructor<S & ActualSegmentClass>
+    public readonly segmentConstructor: Segment202505280000Constructor<S>
   ) {
     super();
   }
 
-  produce(segment: S): S {
-    const newSegment = segment.duplicate() as S; // Ensure newSegment is of type S
+  produce(segment: S, rand?: Random): S {
+    const newSegment = segment.duplicate();
     newSegment.age = this.modifyAge.eval(segment.age);
-    newSegment.length = this.modifyLength.eval(segment.age - segment.stage);
+    newSegment.length =
+      this.modifyLength.eval(segment.age) * (1 - segment.stage);
 
-    const newChildCount = this.newChildCount.eval(segment.stage + segment.age);
+    const newChildCount = Math.floor(
+      this.newChildCount.eval(segment.age) * (1 - segment.stage)
+    );
     for (let i = 0; i < newChildCount; i++) {
       newSegment.children.push(
         new this.segmentConstructor(
-          0, // Initial length for new children
-          this.newChildAngle.eval(i),
+          0, // Length
+          this.newChildAngle.eval(i) + (rand?.int(-20, 20) ?? 0),
           this.newChildStage.eval(segment.stage),
-          0, // Initial age for new children
-          segment.length // *** Offset is parent's current length ***
+          0, // Age
+          newSegment.length // Offset
         )
       );
     }
-    // Recursively produce for existing children. Their offsets are preserved by their own duplicate() methods.
-    const existingChildren = segment.children.map(child => this.produce(child as S));
+    const existingChildren = segment.children.map((child) =>
+      this.produce(child, rand)
+    );
     newSegment.children.push(...existingChildren);
-    
+
     return newSegment;
   }
 

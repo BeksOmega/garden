@@ -34,9 +34,6 @@ export class Segment202505280000 extends Segment {
       this.age,
       this.offset,
     );
-    // Should children be duplicated here?
-    // Based on Segment202505271310, children are not duplicated in `duplicate()`.
-    // They are handled by the producer instead.
     return result as this;
   }
 }
