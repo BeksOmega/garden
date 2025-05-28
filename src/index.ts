@@ -11,43 +11,75 @@ import { Interpreter202505280000 as Interpreter } from "./interpreters/interpret
 import { Turtle } from "./turtle/turtle";
 import { Random } from "./utils/randomness";
 
-const NUM_SKETCHES = 10;
-const systems: Segment[] = [];
-const producers: Producer<Segment>[] = [];
-const randoms: Random[] = [];
+const NUM_ROWS = 5;
+const NUM_COLS = 5;
+const systems: Segment[][] = [];
+const producers: Producer<Segment>[][] = [];
+const randoms: Random[][] = []; // For production drawing
+const productionCounts: number[][] = [];
 const MAX_PRODUCTIONS = 100;
-const productionCounts: number[] = Array(NUM_SKETCHES).fill(0);
 
-function loadSeed(seed: string, sketchIndex: number) {
-  if (sketchIndex < 0 || sketchIndex >= NUM_SKETCHES) {
-    console.error(`Invalid sketchIndex: ${sketchIndex}`);
-    return;
-  }
-  systems[sketchIndex] = new Segment(20, 0, 0, 0, 0);
-  producers[sketchIndex] = new Producer(Segment);
-  randoms[sketchIndex] = new Random(seed);
-  if (sketchIndex > 0) {
-    producers[sketchIndex].mutate(new Random(seed));
-  }
+function loadSketch(
+  rowIndex: number,
+  colIndex: number,
+  mutationSeedForRow: string,
+  productionSeedForColumn: string
+) {
+  if (!producers[rowIndex]) producers[rowIndex] = [];
+  if (!randoms[rowIndex]) randoms[rowIndex] = [];
+  if (!systems[rowIndex]) systems[rowIndex] = [];
+  if (!productionCounts[rowIndex]) productionCounts[rowIndex] = [];
+
+  producers[rowIndex][colIndex] = new Producer(Segment);
+  producers[rowIndex][colIndex].mutate(new Random(mutationSeedForRow));
+  randoms[rowIndex][colIndex] = new Random(productionSeedForColumn);
+  systems[rowIndex][colIndex] = new Segment(20, 0, 0, 0, 0); // Default segment
+  productionCounts[rowIndex][colIndex] = 0;
 
   const procDefTextArea = document.getElementById(
-    `procedure-def-${sketchIndex}`
+    `procedure-def-${rowIndex}-${colIndex}`
   ) as HTMLTextAreaElement;
   if (procDefTextArea) {
-    procDefTextArea.value = producers[sketchIndex].saveString();
-  }
-
-  const seedInput = document.getElementById(
-    `seed-${sketchIndex}`
-  ) as HTMLInputElement;
-  if (seedInput && seedInput.value !== seed) {
-    seedInput.value = seed;
+    procDefTextArea.value = producers[rowIndex][colIndex].saveString();
   }
 }
 
-const createSketch = (sketchIndex: number) => (p: p5) => {
-  const width = 350;
-  const height = 200;
+function initializeOrUpdateAllSketches() {
+  const mutationSeeds: string[] = [];
+  for (let i = 0; i < NUM_ROWS; i++) {
+    const seedInput = document.getElementById(
+      `mutation-seed-row-${i}`
+    ) as HTMLInputElement;
+    mutationSeeds.push(seedInput?.value || (1000 + i).toString());
+  }
+
+  const productionSeeds: string[] = [];
+  for (let i = 0; i < NUM_COLS; i++) {
+    const seedInput = document.getElementById(
+      `production-seed-col-${i}`
+    ) as HTMLInputElement;
+    productionSeeds.push(seedInput?.value || (2000 + i).toString());
+  }
+
+  if (systems.length === 0) {
+    for (let r = 0; r < NUM_ROWS; r++) {
+      systems[r] = [];
+      producers[r] = [];
+      randoms[r] = [];
+      productionCounts[r] = [];
+    }
+  }
+
+  for (let r = 0; r < NUM_ROWS; r++) {
+    for (let c = 0; c < NUM_COLS; c++) {
+      loadSketch(r, c, mutationSeeds[r], productionSeeds[c]);
+    }
+  }
+}
+
+const createSketch = (rowIndex: number, colIndex: number) => (p: p5) => {
+  const width = 150; // Adjusted for smaller grid cells
+  const height = 150; // Adjusted for smaller grid cells
   let turtle: Turtle;
   let interpreter: Interpreter;
 
@@ -55,82 +87,64 @@ const createSketch = (sketchIndex: number) => (p: p5) => {
     p.createCanvas(width, height);
     turtle = new Turtle(p);
     interpreter = new Interpreter(turtle);
-    turtle.setPosition(width / 2, height);
+    turtle.setPosition(width / 2, height); // Or adjust as needed
     turtle.left(90);
-    p.frameRate(30);
+    p.frameRate(10); // Adjusted frame rate
   };
 
   p.draw = function () {
-    const producer = producers[sketchIndex];
+    if (
+      !producers[rowIndex] ||
+      !producers[rowIndex][colIndex] ||
+      !systems[rowIndex] ||
+      !systems[rowIndex][colIndex] ||
+      !randoms[rowIndex] ||
+      !randoms[rowIndex][colIndex]
+    ) {
+      // Data not yet loaded
+      p.background(100); // Placeholder background
+      return;
+    }
+    const producer = producers[rowIndex][colIndex];
+    let system = systems[rowIndex][colIndex];
+    const rgen = randoms[rowIndex][colIndex];
 
     p.background(0);
     p.fill(0, 255, 0);
     p.stroke(0, 255, 0);
-    if (productionCounts[sketchIndex] < MAX_PRODUCTIONS) {
-      systems[sketchIndex] = producer.produce(
-        systems[sketchIndex],
-        randoms[sketchIndex]
-      );
-      productionCounts[sketchIndex]++;
+
+    if (productionCounts[rowIndex][colIndex] < MAX_PRODUCTIONS) {
+      system = producer.produce(system, rgen);
+      systems[rowIndex][colIndex] = system; // Update the system in the global array
+      productionCounts[rowIndex][colIndex]++;
     }
-    interpreter.interpret(systems[sketchIndex]);
-    if (sketchIndex === 1) {
-      console.log(systems[sketchIndex]);
+    interpreter.interpret(system);
+    if (rowIndex === 0 && colIndex === 1) {
+      // console.log(system); // Example logging
     }
   };
 };
 
-for (let i = 0; i < NUM_SKETCHES; i++) {
-  const initialSeed = (1234567891 + i).toString();
+// Initialize and create p5 instances for the grid
+for (let r = 0; r < NUM_ROWS; r++) {
+  // Initialize inner arrays if not already done by initializeOrUpdateAllSketches
+  if (!systems[r]) systems[r] = [];
+  if (!producers[r]) producers[r] = [];
+  if (!randoms[r]) randoms[r] = [];
+  if (!productionCounts[r]) productionCounts[r] = [];
 
-  systems[i] = new Segment(20, 0, 0, 0, 0);
-  producers[i] = new Producer(Segment);
-  loadSeed(initialSeed, i);
-
-  const sketchInstance = document.getElementById(`p5-canvas-${i}`);
-  if (sketchInstance) {
-    new p5(createSketch(i), sketchInstance);
-  }
-
-  const btn1 = document.getElementById(`btn1-${i}`);
-  if (btn1) {
-    btn1.addEventListener("click", () => {
-      const newSeed = Math.floor(Math.random() * 1000000000).toString();
-      loadSeed(newSeed, i);
-    });
-  }
-
-  const btn2 = document.getElementById(`btn2-${i}`);
-  if (btn2) {
-    btn2.addEventListener("click", () => {
-      const seedInput = document.getElementById(
-        `seed-${i}`
-      ) as HTMLInputElement;
-      if (seedInput) {
-        loadSeed(seedInput.value, i);
-      }
-    });
-  }
-
-  const btn3 = document.getElementById(`btn3-${i}`);
-  if (btn3) {
-    btn3.addEventListener("click", () => {
-      const procDefTextArea = document.getElementById(
-        `procedure-def-${i}`
-      ) as HTMLTextAreaElement;
-      if (procDefTextArea) {
-        try {
-          const struct = JSON.parse(procDefTextArea.value);
-          systems[i] = new Segment(20, 0, 0, 0, 0);
-          producers[i] = new Producer(Segment);
-          producers[i].load(struct);
-        } catch (e) {
-          console.error(`Error parsing JSON for sketch ${i}:`, e);
-          alert(
-            `Error parsing JSON for sketch ${i}. Check console for details.`
-          );
-        }
-      }
-    });
+  for (let c = 0; c < NUM_COLS; c++) {
+    const sketchInstance = document.getElementById(`p5-canvas-${r}-${c}`);
+    if (sketchInstance) {
+      new p5(createSketch(r, c), sketchInstance);
+    }
   }
 }
+
+const generateAllBtn = document.getElementById("generate-all-sketches");
+if (generateAllBtn) {
+  generateAllBtn.addEventListener("click", initializeOrUpdateAllSketches);
+}
+
+// Initial setup of all sketches
+initializeOrUpdateAllSketches();
