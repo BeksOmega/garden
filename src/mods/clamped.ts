@@ -24,7 +24,7 @@ export class Clamped implements Mod {
   }
 
   mutate(random: Random): void {
-    this.value += random.float(-this.mutationRange, this.mutationRange);
+    this.value *= random.float(1 - this.mutationRange, 1 + this.mutationRange);
     this.value = Math.min(Math.max(this.value, this.min), this.max);
   }
 

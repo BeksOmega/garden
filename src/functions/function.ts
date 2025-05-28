@@ -15,3 +15,13 @@ export interface Func {
 
   load(data: Record<string, any> | undefined): void;
 }
+
+export interface Func2 {
+  eval(x: number[]): number;
+
+  mutate(random: Random): void;
+
+  save(): Record<string, any> | undefined;
+
+  load(data: Record<string, any> | undefined): void;
+}

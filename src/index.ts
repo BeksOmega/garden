@@ -6,7 +6,7 @@
 
 import * as p5 from "p5";
 import { Segment202505280000 as Segment } from "./segments/segment-202505280000";
-import { Producer202505280000 as Producer } from "./producers/producer-202505280000";
+import { Producer202505281127 as Producer } from "./producers/producer-202505281127";
 import { Interpreter202505280000 as Interpreter } from "./interpreters/interpreter-202505280000";
 import { Turtle } from "./turtle/turtle";
 import { Random } from "./utils/randomness";
@@ -15,6 +15,8 @@ const NUM_SKETCHES = 10;
 const systems: Segment[] = [];
 const producers: Producer<Segment>[] = [];
 const randoms: Random[] = [];
+const MAX_PRODUCTIONS = 100;
+const productionCounts: number[] = Array(NUM_SKETCHES).fill(0);
 
 function loadSeed(seed: string, sketchIndex: number) {
   if (sketchIndex < 0 || sketchIndex >= NUM_SKETCHES) {
@@ -64,11 +66,17 @@ const createSketch = (sketchIndex: number) => (p: p5) => {
     p.background(0);
     p.fill(0, 255, 0);
     p.stroke(0, 255, 0);
-    systems[sketchIndex] = producer.produce(
-      systems[sketchIndex],
-      randoms[sketchIndex]
-    );
+    if (productionCounts[sketchIndex] < MAX_PRODUCTIONS) {
+      systems[sketchIndex] = producer.produce(
+        systems[sketchIndex],
+        randoms[sketchIndex]
+      );
+      productionCounts[sketchIndex]++;
+    }
     interpreter.interpret(systems[sketchIndex]);
+    if (sketchIndex === 1) {
+      console.log(systems[sketchIndex]);
+    }
   };
 };
 
