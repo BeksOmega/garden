@@ -153,3 +153,27 @@ body {
 .refresh-btn:hover {
   background-color: #e0e0e0;
 }
+
+.experiment-container {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.experiment-container .sketch-container {
+  width: 100%;
+  min-width: auto;
+}
+
+.experiment-container .sketch-container div[id^="p5-canvas-"] {
+  width: 100%;
+  height: 400px;
+}
+
+.experiment-container .sketch-container textarea {
+  min-height: 200px;
+}

@@ -211,3 +211,88 @@ if (generateAllBtn) {
 
 // Initial setup of all sketches
 initializeOrUpdateAllSketches();
+
+// Experiment sketch setup
+const createExperimentSketch = () => (p: p5) => {
+  let startY;
+  let currentDiff = [];
+  let diff = [];
+  let lerpAmt = 0;
+  let speed = 0.01;
+  let numPoints = 5;
+
+  p.setup = function () {
+    p.createCanvas(600, 400);
+    p.stroke(0, 150, 255);
+    p.strokeWeight(4);
+    p.noFill();
+
+    startY = [
+      p.height / 2,
+      p.height / 2,
+      p.height / 2,
+      p.height / 2,
+      p.height / 2,
+    ];
+
+    diff = [-20, -100, -50, -100, -20];
+  };
+
+  p.draw = function () {
+    p.background(240);
+    p.stroke(0, 150, 255);
+    p.noFill();
+
+    if (lerpAmt < 1) {
+      lerpAmt += speed;
+      for (let i = 0; i < numPoints; i++) {
+        currentDiff[i] = p.lerp(0, diff[i], lerpAmt);
+      }
+    }
+
+    let pointSpacing = p.width / (numPoints + 1);
+
+    p.beginShape();
+    p.curveVertex(pointSpacing, startY[0] + currentDiff[0]);
+
+    const lastIndex = numPoints - 1;
+    for (let i = 0; i < numPoints - 1; i++) {
+      let x = pointSpacing * (i + 1);
+      p.curveVertex(x, startY[i] + currentDiff[i]);
+    }
+    const lastX = pointSpacing * (lastIndex + 1);
+    if (currentDiff[lastIndex] > 0) {
+      p.curveVertex(lastX, startY[lastIndex] + currentDiff[lastIndex]);
+      p.curveVertex(lastX, startY[lastIndex] - currentDiff[lastIndex]);
+    } else {
+      p.curveVertex(lastX, startY[lastIndex]);
+    }
+    for (let i = numPoints - 2; i >= 0; i--) {
+      let x = pointSpacing * (i + 1);
+      p.curveVertex(x, startY[i] - currentDiff[i]);
+    }
+
+    p.curveVertex(pointSpacing, startY[0] - currentDiff[0]);
+    p.endShape();
+    p.line(
+      pointSpacing,
+      startY[0] - currentDiff[0],
+      pointSpacing,
+      startY[0] + currentDiff[0]
+    );
+
+    // Draw the anchor points (optional)
+    p.fill(255, 0, 0);
+    p.noStroke();
+    for (let i = 0; i < numPoints; i++) {
+      let x = pointSpacing * (i + 1);
+      p.ellipse(x, startY[i] + currentDiff[i], 10, 10);
+    }
+  };
+};
+
+// Initialize experiment sketch
+const experimentInstance = document.getElementById("p5-canvas-experiment");
+if (experimentInstance) {
+  new p5(createExperimentSketch(), experimentInstance);
+}
