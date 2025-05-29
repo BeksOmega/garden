@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
+import "./styles.css";
 import * as p5 from "p5";
 import { Segment202505280000 as Segment } from "./segments/segment-202505280000";
 import { Producer202505281127 as Producer } from "./producers/producer-202505281127";
@@ -18,6 +19,56 @@ const producers: Producer<Segment>[][] = [];
 const randoms: Random[][] = []; // For production drawing
 const productionCounts: number[][] = [];
 const MAX_PRODUCTIONS = 100;
+
+function generateRandomSeed(): string {
+  return Math.floor(Math.random() * 10000).toString();
+}
+
+function updateRow(rowIndex: number, mutationSeed: string) {
+  if (!productionCounts[rowIndex]) productionCounts[rowIndex] = [];
+  for (let c = 0; c < NUM_COLS; c++) {
+    productionCounts[rowIndex][c] = 0;
+    loadSketch(
+      rowIndex,
+      c,
+      mutationSeed,
+      (document.getElementById(`production-seed-col-${c}`) as HTMLInputElement)
+        .value
+    );
+  }
+}
+
+function updateColumn(colIndex: number, productionSeed: string) {
+  for (let r = 0; r < NUM_ROWS; r++) {
+    if (!productionCounts[r]) productionCounts[r] = [];
+    productionCounts[r][colIndex] = 0;
+    loadSketch(
+      r,
+      colIndex,
+      (document.getElementById(`mutation-seed-row-${r}`) as HTMLInputElement)
+        .value,
+      productionSeed
+    );
+  }
+}
+
+function handleRefreshClick(targetId: string) {
+  const input = document.getElementById(targetId) as HTMLInputElement;
+  if (!input) return;
+
+  const newSeed = generateRandomSeed();
+  input.value = newSeed;
+
+  // Determine if this is a row or column seed
+  if (targetId.startsWith("mutation-seed-row-")) {
+    const rowIndex = parseInt(targetId.split("-").pop() || "0");
+    updateRow(rowIndex, newSeed);
+  } else if (targetId.startsWith("production-seed-col-")) {
+    console.log("production-seed-col-", targetId);
+    const colIndex = parseInt(targetId.split("-").pop() || "0");
+    updateColumn(colIndex, newSeed);
+  }
+}
 
 function loadSketch(
   rowIndex: number,
@@ -140,6 +191,18 @@ for (let r = 0; r < NUM_ROWS; r++) {
     }
   }
 }
+
+// Add click handlers for refresh buttons
+document.querySelectorAll(".refresh-btn").forEach((button) => {
+  button.addEventListener("click", (e) => {
+    const targetId = (e.currentTarget as HTMLElement).getAttribute(
+      "data-target"
+    );
+    if (targetId) {
+      handleRefreshClick(targetId);
+    }
+  });
+});
 
 const generateAllBtn = document.getElementById("generate-all-sketches");
 if (generateAllBtn) {

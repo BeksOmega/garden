@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
@@ -57,23 +61,20 @@ body {
 }
 
 #sketches-container {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(5, auto);
+  display: flex;
+  flex-direction: column;
   gap: 15px;
   padding: 10px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  /* max-width to prevent it from becoming too wide on large screens, 
-     adjust 1fr for canvas size (150px + padding/border) */
-  max-width: calc(5 * (150px + 2*10px + 2*1px) + 4 * 15px + 2*10px); /* 5*(canvas+padding+border) + 4*gap + container_padding */
+  width: 100%;
 }
 
 .sketch-row {
-  /* Not strictly necessary if #sketches-container is a grid, 
-     but could be used for row-specific styling if needed later.
-     For now, relying on grid for layout. */
+  display: flex;
+  gap: 15px;
+  justify-content: center;
 }
 
 .sketch-container {
@@ -85,6 +86,7 @@ body {
   flex-direction: column;
   align-items: center; /* Center canvas and details/textarea block */
   min-width: 150px; /* Corresponds to canvas width */
+  flex-grow: 1;
 }
 
 .sketch-container div[id^="p5-canvas-"] {
@@ -122,4 +124,32 @@ body {
   font-size: 0.8em;
   min-height: 60px; /* Adjusted from rows=5, cols=30 */
   resize: vertical; /* Allow vertical resize */
+}
+
+.seed-input-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.seed-input-group input[type="text"] {
+  flex: 1;
+}
+
+.refresh-btn {
+  padding: 4px 8px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+}
+
+.refresh-btn:hover {
+  background-color: #e0e0e0;
 }
