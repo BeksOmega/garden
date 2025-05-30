@@ -6,9 +6,9 @@
 
 import "./styles.css";
 import * as p5 from "p5";
-import { Segment202505280000 as Segment } from "./segments/segment-202505280000";
-import { Producer202505281127 as Producer } from "./producers/producer-202505281127";
-import { Interpreter202505280000 as Interpreter } from "./interpreters/interpreter-202505280000";
+import { Segment202505291623 as Segment } from "./segments/segment-202505291623";
+import { Producer202505291659 as Producer } from "./producers/producer-202505291659";
+import { Interpreter202505291706 as Interpreter } from "./interpreters/interpreter-202505291706";
 import { Turtle } from "./turtle/turtle";
 import { Random } from "./utils/randomness";
 
@@ -70,6 +70,21 @@ function handleRefreshClick(targetId: string) {
   }
 }
 
+function defaultSegment(rowIndex: number, colIndex: number) {
+  return new Segment(
+    0,
+    0,
+    [
+      { x: 0.2, y: 0 },
+      { x: 1, y: 0.25 },
+      { x: 0.5, y: 0.5 },
+      { x: 1, y: 0.75 },
+      { x: 0, y: 1 },
+    ],
+    0
+  );
+}
+
 function loadSketch(
   rowIndex: number,
   colIndex: number,
@@ -84,7 +99,7 @@ function loadSketch(
   producers[rowIndex][colIndex] = new Producer(Segment);
   producers[rowIndex][colIndex].mutate(new Random(mutationSeedForRow));
   randoms[rowIndex][colIndex] = new Random(productionSeedForColumn);
-  systems[rowIndex][colIndex] = new Segment(20, 0, 0, 0, 0); // Default segment
+  systems[rowIndex][colIndex] = defaultSegment(rowIndex, colIndex);
   productionCounts[rowIndex][colIndex] = 0;
 
   const procDefTextArea = document.getElementById(
