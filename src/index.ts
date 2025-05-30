@@ -7,7 +7,7 @@
 import "./styles.css";
 import * as p5 from "p5";
 import { Segment202505291623 as Segment } from "./segments/segment-202505291623";
-import { Producer202505291659 as Producer } from "./producers/producer-202505291659";
+import { Producer202505301035 as Producer } from "./producers/producer-202505301035";
 import { Interpreter202505291706 as Interpreter } from "./interpreters/interpreter-202505291706";
 import { Turtle } from "./turtle/turtle";
 import { Random } from "./utils/randomness";
@@ -75,10 +75,9 @@ function defaultSegment(rowIndex: number, colIndex: number) {
     0,
     0,
     [
-      { x: 0.2, y: 0 },
-      { x: 1, y: 0.25 },
-      { x: 0.5, y: 0.5 },
-      { x: 1, y: 0.75 },
+      { x: 0.5, y: 0 },
+      { x: 1, y: 0.3 },
+      { x: 1, y: 0.8 },
       { x: 0, y: 1 },
     ],
     0
