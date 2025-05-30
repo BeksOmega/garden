@@ -7,13 +7,13 @@
 import "./styles.css";
 import * as p5 from "p5";
 import { Segment202505291623 as Segment } from "./segments/segment-202505291623";
-import { Producer202505301035 as Producer } from "./producers/producer-202505301035";
+import { Producer202505301524 as Producer } from "./producers/producer-202505301524";
 import { Interpreter202505291706 as Interpreter } from "./interpreters/interpreter-202505291706";
 import { Turtle } from "./turtle/turtle";
 import { Random } from "./utils/randomness";
 
-const NUM_ROWS = 5;
-const NUM_COLS = 5;
+const NUM_ROWS = 1;
+const NUM_COLS = 1;
 const systems: Segment[][] = [];
 const producers: Producer<Segment>[][] = [];
 const randoms: Random[][] = []; // For production drawing
@@ -115,7 +115,7 @@ function initializeOrUpdateAllSketches() {
     const seedInput = document.getElementById(
       `mutation-seed-row-${i}`
     ) as HTMLInputElement;
-    mutationSeeds.push(seedInput?.value || (1000 + i).toString());
+    mutationSeeds.push(seedInput?.value || (1001 + i).toString());
   }
 
   const productionSeeds: string[] = [];
