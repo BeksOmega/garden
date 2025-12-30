@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "test": "test",
-    "build": "webpack",
+    "build": "webpack --mode production",
+    "build:dev": "webpack --mode development",
     "start": "webpack serve --open"
   },
   "repository": {
